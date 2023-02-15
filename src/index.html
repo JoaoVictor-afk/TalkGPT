@@ -6,6 +6,9 @@
     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
   
     <title>Speech to Text</title>
+
+    <link rel="stylesheet" href="./styles/style.css">
+
 </head>
   
 <body>
@@ -20,7 +23,7 @@
   
         const recognition = new SpeechRecognition();
         recognition.interimResults = true;
-        
+
         const words = document.querySelector('.words');
         words.appendChild(p);
   
