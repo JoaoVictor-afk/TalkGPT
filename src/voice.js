@@ -4,6 +4,7 @@ window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogn
 
 
 const button = document.getElementById("falar")
+const mic = document.getElementById("mic")
 
 const recognition = new SpeechRecognition();
 recognition.interimResults = true;
@@ -26,7 +27,10 @@ button.addEventListener("click", e => {
 
     if (!isSpeaking) {
 
-        button.classList.add("bg-red-500")
+        console.log("Ouvindo")
+
+        mic.classList.add("text-red-500")
+        
         
         isSpeaking = true;
         recognition.start();
@@ -38,7 +42,6 @@ button.addEventListener("click", e => {
 recognition.addEventListener('speechend', e => {
 
     isSpeaking = false;
-    button.classList.remove("bg-red-500")
 
 });
 

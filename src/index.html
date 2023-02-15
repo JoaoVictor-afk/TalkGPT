@@ -1,4 +1,4 @@
-OCTYPE html>
+<!DOCTYPE html>
 <html>
   
 <head>
@@ -51,9 +51,9 @@ OCTYPE html>
         <div class="pt-24 words w-full h-full">
             <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
               <!--Left Col-->
-              <div class="flex flex-col w-full md:w-5/5 justify-center items-start text-center md:text-left">
-                    <button class="text-center  text-5xl">
-                        <ion-icon class="text-center  text-5xl" name="mic"></ion-icon>
+              <div class="flex flex-col w-full md:w-5/5 justify-center  text-center md:text-left">
+                    <button class="text-center" id="falar">
+                        <ion-icon class="text-center" id="mic" name="mic"></ion-icon>
                     </button>
                     <p class="text-center  text-5xl" id="p"></p>
 
@@ -63,32 +63,7 @@ OCTYPE html>
         
     
   
-    <script>
-        var speech = true;
-        window.SpeechRecognition = window.SpeechRecognition
-                        || window.webkitSpeechRecognition;
-  
-        const recognition = new SpeechRecognition();
-        recognition.interimResults = true;
-
-        const words = document.querySelector('.words');
-        words.appendChild(p);
-  
-        recognition.addEventListener('result', e => {
-            const transcript = Array.from(e.results)
-                .map(result => result[0])
-                .map(result => result.transcript)
-                .join('')
-  
-            document.getElementById("p").innerHTML = transcript;
-            console.log(transcript);
-        });
-          
-        if (speech == true) {
-            recognition.start();
-            recognition.addEventListener('end', recognition.start);
-        }
-    </script>
+    <script src="./voice.js"></script>
 </body>
   
 </html>
