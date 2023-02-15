@@ -8,13 +8,60 @@
     <title>Speech to Text</title>
 
     <link rel="stylesheet" href="./styles/style.css">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
 </head>
   
-<body>
-    <div class="words" contenteditable>
-        <p id="p"></p>
-    </div>
+<body class="bg-slate-200">
+        <!--Nav-->
+        <div id="header" class="fixed w-full z-30 top-0 text-white stick duration-300 ">
+            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+              <div class="pl-4 flex items-center">
+                <a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+               
+                  Fala q eu ti escuto
+                </a>
+              </div>
+              <div class="block lg:hidden pr-4">
+                <button id="nav-toggle" class="flex items-center p-1 text-pink-800 hover:text-gray-900 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                  <svg class="fill-current h-6 w-6" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <title>Menu</title>
+                    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+                  </svg>
+                </button>
+              </div>
+              <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden mt-2 lg:mt-0 bg-white lg:bg-transparent text-black p-4 lg:p-0 z-20" id="nav-content">
+                <ul class="list-reset lg:flex justify-end flex-1 items-center">
+                  <li class="mr-3">
+                    <a class="inline-block text-1xl py-2 px-4 text-black font-bold no-underline transform transition hover:scale-125 duration-300 ease-in-out" href="#sobre">algo</a>
+                  </li>
+                  <li class="mr-3">
+                    <a class="inline-block text-1xl text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4 transform transition hover:scale-125 duration-300 ease-in-out" href="#missao"> algo
+                    </a>
+                  </li>
+                </ul>
+                <a href="#formcontato">
+            
+                </a>
+              </div>
+            </div>
+            <hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
+        </div>
+        <div class="pt-24 words w-full h-full">
+            <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+              <!--Left Col-->
+              <div class="flex flex-col w-full md:w-5/5 justify-center items-start text-center md:text-left">
+                    <button class="text-center  text-5xl">
+                        <ion-icon class="text-center  text-5xl" name="mic"></ion-icon>
+                    </button>
+                    <p class="text-center  text-5xl" id="p"></p>
+
+              </div>
+            </div>
+          </div>
+        
+    
   
     <script>
         var speech = true;
