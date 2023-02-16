@@ -6,6 +6,7 @@ window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogn
 const button = document.getElementById("falar")
 const mic = document.getElementById("mic")
 
+const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
 recognition.interimResults = true;
 
@@ -39,18 +40,24 @@ button.addEventListener("click", e => {
 
 })
 
+const delayInMilliseconds = 1000; //1 second
+
 recognition.addEventListener('speechend', e => {
 
     isSpeaking = false;
 
-});
-
-recognition.addEventListener('end', e => {
     
-    const synth = window.speechSynthesis;
-    const texto = document.getElementById("p").innerHTML
-    const frase = new SpeechSynthesisUtterance(texto);
 
-    synth.speak(frase);
+    setTimeout(function() {
+        
+        const texto = document.getElementById("p").innerHTML
+        const frase = new SpeechSynthesisUtterance(texto);
 
-})
+        mic.classList.remove("text-red-500")
+
+        synth.speak(frase);
+
+        
+    }, delayInMilliseconds);
+
+});
