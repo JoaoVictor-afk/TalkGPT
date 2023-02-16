@@ -2,9 +2,7 @@
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-
 const button = document.getElementById("falar")
-const mic = document.getElementById("mic")
 
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
@@ -28,10 +26,8 @@ button.addEventListener("click", e => {
 
     if (!isSpeaking) {
 
-        console.log("Ouvindo")
-
-        mic.classList.add("text-red-500")
-        
+        button.classList.add("text-red-500")
+        button.classList.add("animate-pulse")
         
         isSpeaking = true;
         recognition.start();
@@ -40,24 +36,57 @@ button.addEventListener("click", e => {
 
 })
 
-const delayInMilliseconds = 1000; //1 second
 
-recognition.addEventListener('speechend', e => {
+function end_listen() {
 
     isSpeaking = false;
 
-    
-
-    setTimeout(function() {
+    setTimeout( function() {
         
         const texto = document.getElementById("p").innerHTML
-        const frase = new SpeechSynthesisUtterance(texto);
 
-        mic.classList.remove("text-red-500")
+        let fetchData = {
 
-        synth.speak(frase);
+            method : "POST",
+            body : JSON.stringify({
+                ms : texto,
+                js : true
+            }),
+            headers : {
+                "Content-Type" : "application/json"
+            }
+
+        }
+        
+        fetch('/sendvoice', fetchData).then(res => res.json())
+        .then(data => {
+
+            console.log(data)
+            const choice = JSON.parse(data).choices[0].text
+            console.log(choice)
+            
+
+        })
 
         
-    }, delayInMilliseconds);
+
+        button.classList.remove("text-red-500")
+        button.classList.remove("animate-pulse")
+
+
+        //const frase = new SpeechSynthesisUtterance(choice);
+        //synth.speak(frase);
+
+
+    }, 1000);
+
+}
+
+
+
+recognition.addEventListener('speechend', e => {
+
+    end_listen()
 
 });
+
