@@ -1,7 +1,13 @@
 window.SpeechRecognition =
 	window.SpeechRecognition || window.webkitSpeechRecognition;
 
-const button = document.getElementById("falar");
+
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+
+
+const button = document.getElementById("falar")
+const botao_parar = document.getElementById("parar_falar")
 
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
@@ -12,6 +18,30 @@ words.appendChild(p);
 
 var isSpeaking = false;
 
+
+botao_parar.addEventListener("click", e => {
+
+    if (synth.speaking) {
+
+        synth.cancel()
+        botao_parar.classList.add("hidden")
+
+    }
+
+})
+
+
+botao_parar.addEventListener("click", e => {
+
+    if (synth.speaking) {
+
+        synth.cancel()
+        botao_parar.classList.add("hidden")
+
+    }
+
+})
+
 recognition.addEventListener("result", (e) => {
 	const transcript = Array.from(e.results)
 		.map((result) => result[0])
@@ -21,50 +51,84 @@ recognition.addEventListener("result", (e) => {
 	document.getElementById("p").innerHTML = transcript;
 });
 
-button.addEventListener("click", (e) => {
-	if (!isSpeaking) {
-		button.classList.add("text-red-500");
-		button.classList.add("animate-pulse");
+button.addEventListener("click", e => {
 
-		isSpeaking = true;
-		recognition.start();
-	} else {
-		recognition.stop();
-	}
-});
+    if (!synth.speaking && !isSpeaking) {
+
+        isSpeaking = true
+
+        button.classList.add("text-red-500")
+        button.classList.add("animate-pulse")
+        
+        recognition.start();
+
+    } else {
+
+        recognition.stop()
+
+    }
+
+})
+
 
 function end_listen() {
-	isSpeaking = false;
 
-	setTimeout(function () {
-		const texto = document.getElementById("p").innerHTML;
+    isSpeaking = false;
 
-		let fetchData = {
-			method: "POST",
-			body: JSON.stringify({
-				ms: texto,
-				js: true,
-			}),
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
+    setTimeout( function() {
+        
+        const texto = document.getElementById("p").innerHTML
 
-		fetch("/sendvoice", fetchData)
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data);
-				const choice = JSON.parse(data).choices[0].text;
-				console.log(choice);
+        let fetchData = {
 
-				const frase = new SpeechSynthesisUtterance(choice);
-				synth.speak(frase);
-			});
+            method : "POST",
+            body : JSON.stringify({
+                ms : texto,
+                js : true
+            }),
+            headers : {
+                "Content-Type" : "application/json"
+            }
 
-		button.classList.remove("text-red-500");
-		button.classList.remove("animate-pulse");
-	}, 500);
+        }
+        
+        fetch('/sendvoice', fetchData).then(res => res.json())
+        .then(data => {
+
+            console.log(data)
+            const choice = JSON.parse(data).choices[0].text
+            console.log(choice)
+            
+            const frase = new SpeechSynthesisUtterance(choice);
+
+            frase.onend = () => {
+
+                botao_parar.classList.add("hidden")
+                isSpeaking = false
+
+            }
+
+            synth.speak(frase);
+
+
+            botao_parar.classList.remove("hidden")
+
+        })
+
+        
+
+        button.classList.remove("text-red-500")
+        button.classList.remove("animate-pulse")
+
+
+        
+
+
+    }, 500);
+
 }
+
+
 
 recognition.addEventListener("end", (e) => {
 	end_listen();
