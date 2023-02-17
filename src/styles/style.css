@@ -590,6 +590,13 @@ video {
 .justify-between {
   justify-content: space-between;
 }
+.break-normal {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.rounded-lg {
+  border-radius: 0.5rem;
+}
 .border-b {
   border-bottom-width: 1px;
 }
@@ -705,6 +712,7 @@ html {
 #falar {
 
     font-size: 300px;
+}
 
 .hover\:scale-125:hover {
   --tw-scale-x: 1.25;
@@ -716,13 +724,13 @@ html {
 	max-width: 480px;
 	text-align: center;
 	margin: 60px auto;
-	font-family: "Courier New", Courier, monospace;
+	font-family: inherit;
 }
 .fala:after {
-	content: "|";
+	/* content: "|"; */
 	margin-left: 5px;
 	opacity: 1;
-	animation: pisca 0.7s infinite;
+	/* animation: pisca 0.7s infinite; */
 }
 /* Animação aplicada ao content referente a classe *.titulo-principal* resultando num efeito de cursor piscando. */
 

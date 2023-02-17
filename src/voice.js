@@ -17,7 +17,7 @@ const words = document.querySelector(".words");
 words.appendChild(p);
 
 var isSpeaking = false;
-var cancel_typing = false
+
 
 
 botao_parar.addEventListener("click", e => {
@@ -26,7 +26,6 @@ botao_parar.addEventListener("click", e => {
 
         synth.cancel()
         botao_parar.classList.add("hidden")
-        cancel_typing = true
 
     }
 
@@ -126,7 +125,6 @@ recognition.addEventListener("end", (e) => {
 	end_listen();
 });
 
-<<<<<<< HEAD
 function typeWrite(e) {
 	const textoArray = e.innerHTML.split("");
 	e.innerHTML = " ";
@@ -136,21 +134,3 @@ function typeWrite(e) {
 		}, 75 * i);
 	});
 }
-=======
-function typeWrite(e){
-    const textoArray = e.innerHTML.split('');
-    e.innerHTML = ' ';
-    textoArray.every(function(letra, i){
-
-        if (cancel_typing) {
-            cancel_typing = false
-            return false
-        }
-        
-        setTimeout(function(){
-            e.innerHTML += letra;
-        }, 75 * i)
-
-    });
-}
->>>>>>> refs/remotes/origin/main
