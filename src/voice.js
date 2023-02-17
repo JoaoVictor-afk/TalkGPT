@@ -70,16 +70,12 @@ recognition.addEventListener("end", (e) => {
 	end_listen();
 });
 
-function typeWrite(e){
-    const textoArray = e.innerHTML.split('');
-    e.innerHTML = ' ';
-    textoArray.forEach(function(letra, i){
-
-    setTimeout(function(){
-        e.innerHTML += letra;
-    }, 75 * i)
-
-  });
+function typeWrite(e) {
+	const textoArray = e.innerHTML.split("");
+	e.innerHTML = " ";
+	textoArray.forEach(function (letra, i) {
+		setTimeout(function () {
+			e.innerHTML += letra;
+		}, 75 * i);
+	});
 }
-const titulo = document.querySelector('.titulo-principal');
-typeWrite(titulo);
