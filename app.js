@@ -33,8 +33,9 @@ app.post("/sendvoice", (req, res) => {
 	
 	const msData = {
 
+		model: "text-davinci-003",
 		prompt: ms,
-		max_tokens: 100,
+		max_tokens: 1000,
 		n: 1,
 
 

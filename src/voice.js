@@ -65,6 +65,9 @@ function end_listen() {
             const choice = JSON.parse(data).choices[0].text
             console.log(choice)
             
+            const frase = new SpeechSynthesisUtterance(choice);
+            synth.speak(frase);
+
 
         })
 
@@ -74,11 +77,10 @@ function end_listen() {
         button.classList.remove("animate-pulse")
 
 
-        //const frase = new SpeechSynthesisUtterance(choice);
-        //synth.speak(frase);
+        
 
 
-    }, 1000);
+    }, 500);
 
 }
 
