@@ -1,101 +1,85 @@
+window.SpeechRecognition =
+	window.SpeechRecognition || window.webkitSpeechRecognition;
 
-
-window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-
-
-const button = document.getElementById("falar")
+const button = document.getElementById("falar");
 
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
 recognition.interimResults = true;
 
-
-const words = document.querySelector('.words');
+const words = document.querySelector(".words");
 words.appendChild(p);
 
 var isSpeaking = false;
 
-recognition.addEventListener('result', e => {
-    const transcript = Array.from(e.results)
-        .map(result => result[0])
-        .map(result => result.transcript)
-        .join('')
+recognition.addEventListener("result", (e) => {
+	const transcript = Array.from(e.results)
+		.map((result) => result[0])
+		.map((result) => result.transcript)
+		.join("");
 
-    document.getElementById("p").innerHTML = transcript;
+	document.getElementById("p").innerHTML = transcript;
 });
 
-button.addEventListener("click", e => {
+button.addEventListener("click", (e) => {
+	if (!isSpeaking) {
+		button.classList.add("text-red-500");
+		button.classList.add("animate-pulse");
 
-    if (!isSpeaking) {
-
-        button.classList.add("text-red-500")
-        button.classList.add("animate-pulse")
-        
-        isSpeaking = true;
-        recognition.start();
-
-    } else {
-
-        recognition.stop()
-
-    }
-
-})
-
+		isSpeaking = true;
+		recognition.start();
+	} else {
+		recognition.stop();
+	}
+});
 
 function end_listen() {
+	isSpeaking = false;
 
-    isSpeaking = false;
+	setTimeout(function () {
+		const texto = document.getElementById("p").innerHTML;
 
-    setTimeout( function() {
-        
-        const texto = document.getElementById("p").innerHTML
+		let fetchData = {
+			method: "POST",
+			body: JSON.stringify({
+				ms: texto,
+				js: true,
+			}),
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
 
-        let fetchData = {
+		fetch("/sendvoice", fetchData)
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data);
+				const choice = JSON.parse(data).choices[0].text;
+				console.log(choice);
 
-            method : "POST",
-            body : JSON.stringify({
-                ms : texto,
-                js : true
-            }),
-            headers : {
-                "Content-Type" : "application/json"
-            }
+				const frase = new SpeechSynthesisUtterance(choice);
+				synth.speak(frase);
+			});
 
-        }
-        
-        fetch('/sendvoice', fetchData).then(res => res.json())
-        .then(data => {
-
-            console.log(data)
-            const choice = JSON.parse(data).choices[0].text
-            console.log(choice)
-            
-            const frase = new SpeechSynthesisUtterance(choice);
-            synth.speak(frase);
-
-
-        })
-
-        
-
-        button.classList.remove("text-red-500")
-        button.classList.remove("animate-pulse")
-
-
-        
-
-
-    }, 500);
-
+		button.classList.remove("text-red-500");
+		button.classList.remove("animate-pulse");
+	}, 500);
 }
 
-
-
-recognition.addEventListener('end', e => {
-
-    end_listen()
-
+recognition.addEventListener("end", (e) => {
+	end_listen();
 });
 
+function typeWrite(e){
+    const textoArray = e.innerHTML.split('');
+    e.innerHTML = ' ';
+    textoArray.forEach(function(letra, i){
+
+    setTimeout(function(){
+        e.innerHTML += letra;
+    }, 75 * i)
+
+  });
+}
+const titulo = document.querySelector('.titulo-principal');
+typeWrite(titulo);
