@@ -2,11 +2,14 @@
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+
+
 const button = document.getElementById("falar")
 
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
 recognition.interimResults = true;
+
 
 const words = document.querySelector('.words');
 words.appendChild(p);
