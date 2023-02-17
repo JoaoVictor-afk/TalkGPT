@@ -4,7 +4,7 @@ window.SpeechRecognition =
 
 window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-
+const titulo = document.querySelector('.fala');
 
 const button = document.getElementById("falar")
 const botao_parar = document.getElementById("parar_falar")
@@ -17,6 +17,7 @@ const words = document.querySelector(".words");
 words.appendChild(p);
 
 var isSpeaking = false;
+var cancel_typing = false
 
 
 botao_parar.addEventListener("click", e => {
@@ -25,18 +26,7 @@ botao_parar.addEventListener("click", e => {
 
         synth.cancel()
         botao_parar.classList.add("hidden")
-
-    }
-
-})
-
-
-botao_parar.addEventListener("click", e => {
-
-    if (synth.speaking) {
-
-        synth.cancel()
-        botao_parar.classList.add("hidden")
+        cancel_typing = true
 
     }
 
@@ -73,8 +63,6 @@ button.addEventListener("click", e => {
 
 function end_listen() {
 
-    isSpeaking = false;
-
     setTimeout( function() {
         
         const texto = document.getElementById("p").innerHTML
@@ -104,14 +92,18 @@ function end_listen() {
             frase.onend = () => {
 
                 botao_parar.classList.add("hidden")
-                isSpeaking = false
 
             }
 
             synth.speak(frase);
 
+            isSpeaking = false;
 
             botao_parar.classList.remove("hidden")
+
+            titulo.innerHTML = choice
+
+            typeWrite(titulo)
 
         })
 
@@ -137,13 +129,16 @@ recognition.addEventListener("end", (e) => {
 function typeWrite(e){
     const textoArray = e.innerHTML.split('');
     e.innerHTML = ' ';
-    textoArray.forEach(function(letra, i){
+    textoArray.every(function(letra, i){
 
-    setTimeout(function(){
-        e.innerHTML += letra;
-    }, 75 * i)
+        if (cancel_typing) {
+            cancel_typing = false
+            return false
+        }
+        
+        setTimeout(function(){
+            e.innerHTML += letra;
+        }, 75 * i)
 
-  });
+    });
 }
-const titulo = document.querySelector('.titulo-principal');
-typeWrite(titulo);
