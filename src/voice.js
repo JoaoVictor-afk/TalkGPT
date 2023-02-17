@@ -35,6 +35,10 @@ button.addEventListener("click", e => {
         isSpeaking = true;
         recognition.start();
 
+    } else {
+
+        recognition.stop()
+
     }
 
 })
@@ -89,7 +93,7 @@ function end_listen() {
 
 
 
-recognition.addEventListener('speechend', e => {
+recognition.addEventListener('end', e => {
 
     end_listen()
 
