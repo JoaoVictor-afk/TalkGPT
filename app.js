@@ -22,8 +22,6 @@ app.post("/getAPIkey", (req, res) => {
 
 	const data = req.body
 
-	console.log(data)
-
 	if (data["key"]) {
 				
 		configuration = new Configuration({
@@ -33,8 +31,8 @@ app.post("/getAPIkey", (req, res) => {
 		openai = new OpenAIApi(configuration)
 
 		const response = openai.createCompletion({
-			model: "text-davinci-003",
-			prompt: "Você é uma pessoa agradável e gentil e está disposta a responder qualquer pergunta.",
+			model: "text-ada-001",
+			prompt: "Hello",
 			max_tokens: 5,
 		})
         .then(data => {

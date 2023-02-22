@@ -7,6 +7,7 @@ const checkbox = document.getElementById("save-key-check")
 
 var api_key = localStorage.getItem("talkGPTapiKey")
 
+
 if (localStorage.hasOwnProperty("checkbox")) {
     switch (localStorage.getItem("checkbox")) {
         case "true":

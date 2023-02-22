@@ -8,6 +8,10 @@ button_listen.addEventListener("click", e => {
 
     if (!isSpeaking && !isListening) {
 
+        if (synth.speaking) {
+            synth.cancel()
+        }
+
         isListening = true
 
         chat_answer.innerHTML = ""
