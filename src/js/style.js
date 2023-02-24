@@ -1,8 +1,6 @@
 
 
-AOS.init();
 
-const button_listen = document.getElementById("mic_button")
 
 button_listen.addEventListener("click", e => {
 
@@ -17,6 +15,7 @@ button_listen.addEventListener("click", e => {
         chat_answer.innerHTML = ""
         mic_capture.innerHTML = ""
 
+        button_listen.setAttribute("name", "mic-off")
         
         chat_answer.classList.add("hidden")
 
@@ -27,13 +26,14 @@ button_listen.addEventListener("click", e => {
 
     } else {
 
+        button_listen.setAttribute("name", "mic")
+        
         recognition.stop()
 
     }
 
 })
 
-const button_listen_stop = document.getElementById("mic_button_stop")
 
 button_listen_stop.addEventListener("click", e => {
 
@@ -47,7 +47,7 @@ button_listen_stop.addEventListener("click", e => {
 
 })
 
-const key_insert_window = document.getElementById("api-key-popup")
+
 
 function closeApiWindow() {
 
@@ -85,9 +85,6 @@ function updateButton(e) {
 }
 
 
-const mic_capture = document.getElementById("mic_capture")
-const chat_answer = document.querySelector('.chat_answer');
-
 var tw_answer = ""
 var txt_index = 0
 
@@ -114,4 +111,3 @@ function typeWrite() {
     
 }
 
-const loading = document.getElementById('loading_animation')

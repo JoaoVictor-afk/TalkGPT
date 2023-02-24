@@ -6,8 +6,8 @@
 
 		<title>TalkGPT</title>
 
-		<link rel="stylesheet" href="./styles/style.css" />
-		
+		<link rel="stylesheet" href="./src/styles/style.css" />
+		<link rel="icon" href="./src/assets/icon.png" />
 
 		<script
 			type="module"
@@ -61,7 +61,7 @@
 
 				<h1 class="text-black text-2xl font-semibold">INSERT YOUR API KEY</h1>
 
-				<input type="text" id="api-key-input" oninput="updateButton(this.value)" placeholder="API KEY" class="w-full mt-2 bg-transparent border-b-2 outline-none border-black">
+				<input type="text" id="api-key-input" oninput="updateButton(this.value)" placeholder="OPEN AI API KEY" class="w-full mt-2 bg-transparent border-b-2 outline-none border-black">
 				
 				<div class="w-full mt-2 text-center align-middle">
 					<input type="checkbox" onclick="remember(this)" id="save-key-check" class="w-4 h-4 align-middle rounded-lg text-black" checked /> 
@@ -84,8 +84,7 @@
 					class="flex flex-col w-full md:w-5/5 justify-center text-center md:text-left"
 				>
 					<ion-icon
-						style="pointer-events: none;"
-						class="mb-3 hover:cursor-pointer bg-slate-300 rounded-full shadow-md scale-75 opacity-50 mx-auto transition-all ease-in-out duration-300"
+						class="mb-3 hover:cursor-pointer bg-slate-300 rounded-full shadow-md hover:scale-110 mx-auto transition-all ease-in-out duration-300"
 						id="mic_button"
 						name="mic"
 					></ion-icon>
@@ -118,11 +117,14 @@
 			</path>
 		</svg>
 
+		<script src="./src/js/get_elements.js"></script>
+
+		<script src="./src/js/validateKey.js"></script>
+
+		<script src="./src/js/voice.js"></script>
 		
-		<script src="./js/voice.js"></script>
+		<script src="./src/js/style.js"></script>
+
 		
-		<script src="./js/style.js"></script>
-		
-		<script src="./js/validateKey.js"></script>
 	</body>
 </html>

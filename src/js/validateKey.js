@@ -1,12 +1,6 @@
 
 
-const validation_button = document.getElementById("api-key-button")
-const send_button = document.getElementById("api-key-send-button")
-const key_input = document.getElementById("api-key-input")
-const checkbox = document.getElementById("save-key-check")
-
-var api_key = localStorage.getItem("talkGPTapiKey")
-
+micButtonToggle(false)
 
 if (localStorage.hasOwnProperty("checkbox")) {
     switch (localStorage.getItem("checkbox")) {
@@ -23,8 +17,10 @@ if (localStorage.hasOwnProperty("checkbox")) {
 }
 
 
+var api_key = localStorage.getItem("talkGPTapiKey")
 
-send_key_to_server(api_key)
+if (api_key)
+    check_key(api_key)
 
 
 function validateKey() {
@@ -35,53 +31,57 @@ function validateKey() {
 
     key_input.value = ""
 
-    send_key_to_server(key)
+    check_key(key)
 
 }
 
 
-function send_key_to_server(key) {
+function check_key(key) {
 
     loading.classList.remove('hidden')
+    micButtonToggle(false)
 
-    fetch('/getAPIkey', {
+    fetch('https://api.openai.com/v1/completions', {
         method: 'POST',
-        body: JSON.stringify({ key }),
-        headers: { 'Content-Type': 'application/json' },
+        headers : {
+            "Content-Type" : "application/json",
+            "Authorization" : `Bearer ${key}` 
+        },
+        body : JSON.stringify({
+            model: "text-ada-001",
+            prompt: "test",
+            max_tokens: 1,
+            n: 1,
+        })
       })
         .then(response => response.json())
         .then(data => {
 
             loading.classList.add('hidden')
-
-
-            if (data) {
+            
+            if (!data["error"]) {
                 validation_button.classList.add("bg-green-400")
 
-                button_listen.classList.remove("opacity-50")
-                button_listen.classList.remove("scale-75")
-                button_listen.classList.add("hover:scale-110")
-                button_listen.removeAttribute("style")
+                micButtonToggle(true)
 
-                if (!api_key && checkbox.checked) {
+                api_key = key
+
+                if (checkbox.checked) {
                 
                     localStorage.setItem("talkGPTapiKey", key)
                 
                 }
                 
             } else {
+
                 validation_button.classList.remove("bg-green-400")
 
-                button_listen.classList.add("opacity-50")
-                button_listen.classList.add("scale-75")
-                button_listen.classList.remove("hover:scale-110")
-                button_listen.setAttribute("style", "pointer-events: none")
-
+                micButtonToggle(false)
 
             }
-
+            
+            
         })
-        //.catch(error => console.error(error));
     
 }
 
