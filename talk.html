@@ -1,130 +1,109 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<title>TalkGPT</title>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link rel="stylesheet" href="./src/styles/style.css" />
-		<link rel="icon" href="./src/assets/icon.png" />
+	<title>TalkGPT</title>
 
-		<script
-			type="module"
-			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
-		></script>
-		
-		<script 
-			nomodule
-			src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
-		></script>
+	<link rel="stylesheet" href="./src/styles/style.css" />
+	<link rel="icon" href="./src/assets/icon.png" />
 
-		<script src="https://cdn.tailwindcss.com"></script>
+	<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 
-		<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-		<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-	</head>
+	<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-	<body class="bg-slate-200 pb-5">
-		<nav
-			id="header"
-			class="fixed w-full flex align-middle z-30 top-0 p-2 bg-slate-200 text-white duration-300 shadow"
-		>
-			<div
-				class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0"
-			>
-				<div class="pl-4 flex items-center">
-					<a
-						class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
-						href="index.html"
-					> TalkGPT
-					</a>
-				</div>
-			
+	<script src="https://cdn.tailwindcss.com"></script>
+
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+</head>
+
+<body class="bg-slate-200 pb-5">
+	<nav id="header" class="fixed w-full flex align-middle z-30 top-0 p-2 bg-slate-200 text-white duration-300 shadow">
+		<div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0">
+			<div class="pl-4 flex items-center">
+				<a class="toggleColour text-black no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+					href="index.html"> TalkGPT
+				</a>
 			</div>
-			
-			<button 
-				onclick="openApiWindow()"
-				id="api-key-button"
-				class="text-1xl whitespace-nowrap bg-red-500 text-gray-800 font-bold rounded-full py-4 px-8 shadow focus:outline-none transform transition hover:scale-105 duration-300 ease-in-out"
-			>
-				API KEY
+
+		</div>
+
+		<button onclick="openApiWindow()" id="api-key-button"
+			class="text-1xl whitespace-nowrap bg-red-500 text-gray-800 font-bold rounded-full py-4 px-8 shadow focus:outline-none transform transition hover:scale-105 duration-300 ease-in-out">
+			API KEY
+		</button>
+
+	</nav>
+
+	<div id="api-key-popup" class="hidden w-full h-full fixed flex z-40 bg-opacity-60 place-items-center bg-gray-500">
+
+		<div class="rounded-md bg-slate-300 relative shadow-md mx-auto text-center p-3 ">
+
+			<ion-icon onclick="closeApiWindow()"
+				class="text-black text-xl hover:cursor-pointer absolute -right-2 -top-2 rounded-full shadow-md bg-slate-300"
+				name="close-outline"></ion-icon>
+
+			<h1 class="text-black text-2xl font-semibold">INSERT YOUR API KEY</h1>
+
+			<input type="text" id="api-key-input" oninput="updateButton(this.value)" placeholder="OPEN AI API KEY"
+				class="w-full mt-2 bg-transparent border-b-2 outline-none border-black">
+
+			<div class="w-full mt-2 text-center align-middle">
+				<input type="checkbox" onclick="remember(this)" id="save-key-check"
+					class="w-4 h-4 align-middle rounded-lg text-black" checked />
+				<span class="text-lg font-semibold align-middle">Save key in local storage</span>
+			</div>
+
+			<button id="api-key-send-button" onclick="validateKey()" disabled
+				class="mt-3 transition-all duration-300 bg-slate-400 p-1 rounded w-full text-slate-300">
+				SEND
 			</button>
 
-		</nav>
-
-		<div id="api-key-popup" class="hidden w-full h-full fixed flex z-40 bg-opacity-60 place-items-center bg-gray-500">
-
-			<div class="rounded-md bg-slate-300 relative shadow-md mx-auto text-center p-3 ">
-
-				<ion-icon onclick="closeApiWindow()" class="text-black text-xl hover:cursor-pointer absolute -right-2 -top-2 rounded-full shadow-md bg-slate-300" name="close-outline"></ion-icon>
-
-				<h1 class="text-black text-2xl font-semibold">INSERT YOUR API KEY</h1>
-
-				<input type="text" id="api-key-input" oninput="updateButton(this.value)" placeholder="OPEN AI API KEY" class="w-full mt-2 bg-transparent border-b-2 outline-none border-black">
-				
-				<div class="w-full mt-2 text-center align-middle">
-					<input type="checkbox" onclick="remember(this)" id="save-key-check" class="w-4 h-4 align-middle rounded-lg text-black" checked /> 
-					<span class="text-lg font-semibold align-middle">Save key in local storage</span>
-				</div>
-
-				<button id="api-key-send-button" onclick="validateKey()" disabled class="mt-3 transition-all duration-300 bg-slate-400 p-1 rounded w-full text-slate-300">
-					SEND
-				</button>
-
-			</div>
-
 		</div>
 
-		<div class="pt-24 words w-full h-full">
-			<div
-				class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center"
-			>
-				<div
-					class="flex flex-col w-full md:w-5/5 justify-center text-center md:text-left"
-				>
-					<ion-icon
-						class="mb-3 hover:cursor-pointer bg-slate-300 rounded-full shadow-md hover:scale-110 mx-auto transition-all ease-in-out duration-300"
-						id="mic_button"
-						name="mic"
-					></ion-icon>
+	</div>
 
-					<ion-icon
-						class="hover:cursor-pointer mt-4 hover:scale-110 transition-all shadow duration-200 text-white hidden mx-auto bg-red-500 p-1 rounded-full text-2xl"
-						id="mic_button_stop"
-						name="volume-mute-outline"
-					></ion-icon>
+	<div class="pt-24 words w-full h-full">
+		<div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center">
+			<div class="flex flex-col w-full md:w-5/5 justify-center text-center md:text-left">
+				<ion-icon
+					class="mb-3 hover:cursor-pointer bg-slate-300 rounded-full shadow-md hover:scale-110 mx-auto transition-all ease-in-out duration-300"
+					id="mic_button" name="mic"></ion-icon>
 
-					<p class="text-center mt-2 text-5xl mx-auto w-4/5" id="mic_capture"></p>
-				</div>
+				<ion-icon
+					class="hover:cursor-pointer mt-4 hover:scale-110 transition-all shadow duration-200 text-white hidden mx-auto bg-red-500 p-1 rounded-full text-2xl"
+					id="mic_button_stop" name="volume-mute-outline"></ion-icon>
+
+				<p class="text-center mt-2 text-5xl mx-auto w-4/5" id="mic_capture"></p>
 			</div>
-
 		</div>
 
-		<p class="chat_answer mt-8 hidden text-3xl whitespace-pre-wrap text-justify" id="answer"></p>
-		
-		<svg class="w-20 mx-auto hidden" version="1.1" id="loading_animation" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-			viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-			<path fill="#000" d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-			<animateTransform 
-				attributeName="transform" 
-				attributeType="XML" 
-				type="rotate"
-				dur="1s" 
-				from="0 50 50"
-				to="360 50 50" 
-				repeatCount="indefinite" />
-			</path>
-		</svg>
+	</div>
 
-		<script src="./src/js/get_elements.js"></script>
+	<p class="chat_answer mt-8 hidden text-3xl whitespace-pre-wrap text-justify" id="answer"></p>
 
-		<script src="./src/js/validateKey.js"></script>
+	<svg class="w-20 mx-auto hidden" version="1.1" id="loading_animation" xmlns="http://www.w3.org/2000/svg"
+		xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 0 0"
+		xml:space="preserve">
+		<path fill="#000"
+			d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
+			<animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s" from="0 50 50"
+				to="360 50 50" repeatCount="indefinite" />
+		</path>
+	</svg>
 
-		<script src="./src/js/voice.js"></script>
-		
-		<script src="./src/js/style.js"></script>
+	<script src="./src/js/get_elements.js"></script>
 
-		
-	</body>
+	<script src="./src/js/validateKey.js"></script>
+
+	<script src="./src/js/voice.js"></script>
+
+	<script src="./src/js/style.js"></script>
+
+
+</body>
+
 </html>
