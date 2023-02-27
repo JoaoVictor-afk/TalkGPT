@@ -21,7 +21,6 @@ cta.addEventListener("click", (event) => {
 	};
     let mcDatapost = JSON.stringify(mcData);
     let options = {
-		url: "https://us11.api.mailchimp.com/3.0/lists/825c31743f",
 		method: "POST",
 		headers: {
 			Authorization: '2d43db49313c54b1907a590e0d5e7211-us11',
@@ -29,7 +28,7 @@ cta.addEventListener("click", (event) => {
 		body: mcDatapost,
 	};
 
-	fetch("/", options).then((res) => {
+	fetch("https://us11.api.mailchimp.com/3.0/lists/825c31743f", options).then((res) => {
 		if (res.ok) {
 			sucessnotification.classList.remove("opacity-0");
 			console.log("funcinou");
