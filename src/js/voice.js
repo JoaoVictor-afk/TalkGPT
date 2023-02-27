@@ -1,15 +1,17 @@
-navigator.mediaDevices.getUserMedia({ audio: true });
-
-window.SpeechRecognition =
-	window.SpeechRecognition || window.webkitSpeechRecognition;
 
 const synth = window.speechSynthesis;
 
-const recognition = new SpeechRecognition();
+
+var botListening = false;
+var botSpeaking = false;
+
+
+
+navigator.mediaDevices.getUserMedia({ audio: true });
+
+var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 
-var isListening = false;
-var isSpeaking = false;
 
 recognition.addEventListener("result", (e) => {
 	const transcript = Array.from(e.results)
@@ -20,13 +22,22 @@ recognition.addEventListener("result", (e) => {
 	mic_capture.innerHTML = transcript;
 });
 
+recognition.addEventListener("speechend", (e) => {
+	endListen();
+});
+
+
 async function endListen() {
+
 	const message = mic_capture.innerHTML;
+
+	micButtonToggle(false)
+
+	botListening = false;
 
 	if (message) {
 		loading.classList.remove("hidden");
 
-		console.log(api_key);
 
 		fetch("https://api.openai.com/v1/completions", {
 			method: "POST",
@@ -44,40 +55,36 @@ async function endListen() {
 				n: 1,
 			}),
 		})
-			.then((response) => response.json())
-			.then((data) => {
-				let choice = data.choices[0].text;
+		.then((response) => response.json())
+		.then((data) => {
+			
+			let choice = data.choices[0].text;
 
-				var result = choice.match(/^[.,:!?]/);
-				if (result != null) {
-					mic_capture.innerHTML += result;
-				}
+			const result = choice.match(/^[.,:!?]/);
 
-				choice = choice.replace(/^[.,:!?]+/, "");
-				choice = choice.replace(/^(\n)+/, "");
+			if (result != null) {
+				mic_capture.innerHTML += result;
+			}
 
-				const frase = new SpeechSynthesisUtterance(choice);
-				synth.speak(frase);
+			choice = choice.replace(/^[.,:!?]+/, "");
+			choice = choice.replace(/^(\n)+/, "");
 
-				isSpeaking = true;
+			const frase = new SpeechSynthesisUtterance(choice);
+			synth.speak(frase);
 
-				button_listen_stop.classList.remove("hidden");
-				loading.classList.add("hidden");
-				chat_answer.classList.remove("hidden");
+			botSpeaking = true;
 
-				chat_answer.innerHTML = choice;
+			button_listen_stop.classList.remove("hidden");
+			loading.classList.add("hidden");
 
-				typeWrite();
-			});
-	}
+			chat_answer.classList.remove("hidden");
+			chat_answer.innerHTML = choice;
 
-	button_listen.classList.remove("text-red-500");
-	button_listen.classList.remove("animate-pulse");
-	button_listen.setAttribute("name", "mic");
-
-	isListening = false;
+			typeWrite();
+		});
+	}	
 }
 
-recognition.addEventListener("end", (e) => {
-	endListen();
-});
+
+
+
