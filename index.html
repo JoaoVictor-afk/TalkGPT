@@ -289,9 +289,9 @@
 					</div>
 					<div>
 						<div
-							class="shadow-lg rounded-lg bg-white m-8 p-4 opacity-0 flex absolute transform transition duration-300 ease-in-out"
+							class="shadow-lg rounded-lg mx-auto bg-white m-8 p-4 opacity-0 flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform transition duration-300 ease-in-out"
 						>
-							Obrigado!
+							Sucess!
 							<span class="float-right pointer" id="closesuccess">
 								<svg
 									class="fill-current text-gray-600"
@@ -307,14 +307,11 @@
 								</svg>
 							</span>
 						</div>
-						<div class="text-sm text-gray-600 tracking-tight">
-							Seus dados foram enviados com sucesso! Entraremos em contato assim
-							que possível.
-						</div>
+						<div class="text-sm text-gray-600 tracking-tight"> </div>
 					</div>
 				</div>
 				<div
-					class="shadow-lg rounded-lg bg-white m-8 p-4 opacity-0 flex absolute transform transition duration-300 ease-in-out"
+					class="shadow-lg mx-auto rounded-lg bg-white m-8 p-4 opacity-0 flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform transition duration-300 ease-in-out"
 					id="failnotification"
 				>
 					<div class="pr-2">
@@ -333,7 +330,7 @@
 					</div>
 					<div>
 						<div class="text-sm pb-2">
-							Algo deu errado!
+							Something get wrong!
 							<span class="float-right cursor-pointer" id="closefail">
 								<svg
 									class="fill-current text-gray-600"
@@ -350,8 +347,7 @@
 							</span>
 						</div>
 						<div class="text-sm text-gray-600 tracking-tight">
-							Algo deu errado na hora de mandar o seu contato para nós,
-							verifique se está tudo preenchido corretamente e tente novamente.
+							Try send your contact again!
 						</div>
 					</div>
 				</div>
@@ -360,6 +356,10 @@
 					<div class="mb-10">
 						<h1 class="font-bold text-4xl mb-3 text-gray-800">News</h1>
 						<div class="h-1 mx-auto gradient w-1/2 my-0 py-0 rounded-t"></div>
+						<p class="text-gray-800 text-xl px-6 mb-5">
+							Subscribe to receive news about te project and in the future
+							newsletters about technology.
+						</p>
 					</div>
 					<div class="mb-5">
 						<label for="name" class="text-lg flex justify-between items-end">
@@ -720,5 +720,6 @@
 		</script>
 
 		<script src="./src/js/style.js"></script>
+		<script src="./src/js/contact.js"></script>
 	</body>
 </html>
