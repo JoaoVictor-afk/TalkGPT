@@ -7,10 +7,10 @@ cta.addEventListener("click",(event) =>{
 	const name=document.getElementById("name").value;
 	console.log("clicou");
 	event.preventDefault();
-	console.log(nome)
+	console.log(name)
 	let fetchdata={
 	  method :'POST',
-	  body:JSON.stringify({email:this.email.value,name:this.nome.value}),
+	  body:JSON.stringify({email:this.email.value,name:this.name.value}),
 	  headers:{"Content-Type":"application/json"}
 	}
 	fetch("/php/contact.php",fetchdata).then(res =>{
