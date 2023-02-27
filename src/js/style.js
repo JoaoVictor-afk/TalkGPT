@@ -4,29 +4,26 @@
 
 button_listen.addEventListener("click", e => {
 
-    if (!isSpeaking && !isListening) {
+    if (!botSpeaking && !botListening) {
 
         if (synth.speaking) {
             synth.cancel()
         }
 
-        isListening = true
+        botListening = true
 
         chat_answer.innerHTML = ""
         mic_capture.innerHTML = ""
-
-        button_listen.setAttribute("name", "mic-off")
         
         chat_answer.classList.add("hidden")
 
-        button_listen.classList.add("text-red-500")
-        button_listen.classList.add("animate-pulse")
+        micButtonToggle(true)
         
         recognition.start();
 
     } else {
 
-        button_listen.setAttribute("name", "mic")
+        micButtonToggle(false)
         
         recognition.stop()
 
@@ -34,18 +31,43 @@ button_listen.addEventListener("click", e => {
 
 })
 
-
 button_listen_stop.addEventListener("click", e => {
 
-    if (isSpeaking) {
+    if (botSpeaking) {
 
-        synth.cancel()
+        if (synth.speaking) {
+            synth.cancel()
+        }
+
         button_listen_stop.classList.add("hidden")
-        isSpeaking = false
+        botSpeaking = false
 
     }
 
 })
+
+function micButtonToggle (state) {
+
+    switch (state) {
+
+        case true:
+
+            button_listen.classList.add("text-red-500")
+            button_listen.classList.add("animate-pulse")
+            button_listen.classList.add("scale-110")
+            button_listen.setAttribute("name", "mic-off")
+
+            break;
+        
+        default:
+
+            button_listen.classList.remove("text-red-500");
+            button_listen.classList.remove("animate-pulse");
+            button_listen.classList.remove("scale-110")
+            button_listen.setAttribute("name", "mic");
+            
+    }
+}
 
 
 
@@ -63,7 +85,6 @@ function openApiWindow() {
 
 function updateButton(e) {
 
-    console.log(e)
 
     if (e.length > 0) {
         send_button.classList.add("bg-black")
@@ -84,7 +105,6 @@ function updateButton(e) {
     }
 }
 
-
 var tw_answer = ""
 var txt_index = 0
 
@@ -95,7 +115,7 @@ function typeWrite() {
         chat_answer.innerHTML = ""
     }
 
-    if ((txt_index < tw_answer.length) && (isSpeaking)) {
+    if ((txt_index < tw_answer.length) && (botSpeaking)) {
 
         chat_answer.innerHTML += tw_answer.charAt(txt_index)
         txt_index++
@@ -104,7 +124,7 @@ function typeWrite() {
     } else {
 
         txt_index = 0
-        isSpeaking = false
+        botSpeaking = false
         button_listen_stop.classList.add("hidden")
     
     }

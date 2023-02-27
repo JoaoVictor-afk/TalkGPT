@@ -1,4 +1,8 @@
-micButtonToggle(false);
+
+
+
+micButtonEnable(false)
+
 
 if (localStorage.hasOwnProperty("checkbox")) {
 	switch (localStorage.getItem("checkbox")) {
@@ -13,13 +17,16 @@ if (localStorage.hasOwnProperty("checkbox")) {
 	}
 }
 
+
 var api_key = localStorage.getItem("talkGPTapiKey");
+
 
 if (api_key) {
 	check_key(api_key);
 } else {
 	check_key("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");
 }
+
 
 function validateKey() {
 	const key = key_input.value;
@@ -31,9 +38,10 @@ function validateKey() {
 	check_key(key);
 }
 
+
 function check_key(key) {
 	loading.classList.remove("hidden");
-	micButtonToggle(false);
+	micButtonEnable(false);
 
 	fetch("https://api.openai.com/v1/completions", {
 		method: "POST",
@@ -55,7 +63,7 @@ function check_key(key) {
 			if (!data["error"]) {
 				validation_button.classList.add("bg-green-400");
 
-				micButtonToggle(true);
+				micButtonEnable(true);
 
 				api_key = key;
 
@@ -65,7 +73,7 @@ function check_key(key) {
 			} else {
 				validation_button.classList.remove("bg-green-400");
 
-				micButtonToggle(false);
+				micButtonEnable(false);
 			}
 		});
 }

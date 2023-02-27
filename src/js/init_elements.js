@@ -1,4 +1,5 @@
 
+const browser_window = document.getElementById("browser-not-supported")
 
 const button_listen = document.getElementById("mic_button")
 const button_listen_stop = document.getElementById("mic_button_stop")
@@ -15,7 +16,11 @@ const send_button = document.getElementById("api-key-send-button")
 const key_input = document.getElementById("api-key-input")
 const checkbox = document.getElementById("save-key-check")
 
-function micButtonToggle(state) {
+
+var supported = false
+
+
+function micButtonEnable(state) {
 
     switch (state) {
 
@@ -38,5 +43,39 @@ function micButtonToggle(state) {
 
 
     }
+
+}
+
+function toggleBrowserWindow (state){
+    switch (state) {
+
+        case true:
+
+            browser_window.classList.remove("hidden")
+
+            break;
+        
+        default:
+
+            browser_window.classList.add("hidden")
+            
+    }
+}
+
+
+if ("webkitSpeechRecognition" in window) {
+
+	supported = true
+
+    document.write('<script src="./src/js/validateKey.js"></script>')
+    document.write('<script src="./src/js/voice.js"></script>')
+
+  
+} else {
+
+	console.log("Speech Recognition Not Available")
+	micButtonEnable(false)
+
+	toggleBrowserWindow(true)
 
 }
