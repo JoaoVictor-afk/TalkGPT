@@ -7,13 +7,20 @@ $email = "";
 
 if (isset($_POST["name"]) && isset($_POST["email"])){
     $name = $_POST["name"];
-    $mail = $_POST["email"];
+    $email = $_POST["email"];
 }
 
-$body = "{
-   name : ".$name.",
-   email : ".$email." 
-}";
+$body = array(
+    members => [
+        array(
+            email_address => $email,
+            merge_fields => array(
+                FNAME => $name,
+            ),
+            status => "subscribed",
+        ),
+    ],
+);
 
 $curl = curl_init();
 
