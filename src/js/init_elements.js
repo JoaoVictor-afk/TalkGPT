@@ -79,8 +79,6 @@ function toggleSafariWindow (state){
     }
 }
 
-toggleSafariWindow(true)
-
 if ("webkitSpeechRecognition" in window) {
 
     document.write('<script src="./src/js/validateKey.js"></script>') 
