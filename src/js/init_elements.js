@@ -2,6 +2,8 @@
 const tutorial = document.getElementById("tutorial")
 
 const browser_window = document.getElementById("browser-not-supported")
+const safari_window = document.getElementById("browser-safari")
+
 
 const button_listen = document.getElementById("mic_button")
 const button_listen_stop = document.getElementById("mic_button_stop")
@@ -61,14 +63,35 @@ function toggleBrowserWindow (state){
     }
 }
 
+function toggleSafariWindow (state){
+    switch (state) {
+
+        case true:
+
+            safari_window.classList.remove("hidden")
+
+            break;
+        
+        default:
+
+            safari_window.classList.add("hidden")
+            
+    }
+}
+
+toggleSafariWindow(true)
 
 if ("webkitSpeechRecognition" in window) {
 
-    document.write('<script src="./src/js/validateKey.js"></script>')
+    document.write('<script src="./src/js/validateKey.js"></script>') 
     document.write('<script src="./src/js/voice.js"></script>')
 
   
-} else {
+} else if(userAgent.match(/safari/i)){
+
+    toggleSafariWindow(true)
+
+}else {
 
 	console.log("Speech Recognition Not Available")
 	micButtonEnable(false)

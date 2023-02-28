@@ -27,7 +27,6 @@ button_listen.addEventListener("click", e => {
 
         botListening = false
         
-
         micButtonToggle(false)
         
         recognition.stop()
