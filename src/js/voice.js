@@ -37,10 +37,10 @@ async function endListen() {
 	micButtonToggle(false)
 
 	botListening = false;
-	botSpeaking = true;
-
+	
 	if (message) {
-
+		botSpeaking = true;
+		
 		loading.classList.remove("hidden");
 
 		fetch("https://api.openai.com/v1/completions", {

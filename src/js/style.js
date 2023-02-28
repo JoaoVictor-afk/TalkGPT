@@ -26,6 +26,7 @@ button_listen.addEventListener("click", e => {
     } else {
 
         botListening = false
+        
 
         micButtonToggle(false)
         
