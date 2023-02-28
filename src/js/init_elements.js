@@ -17,9 +17,6 @@ const key_input = document.getElementById("api-key-input")
 const checkbox = document.getElementById("save-key-check")
 
 
-var supported = false
-
-
 function micButtonEnable(state) {
 
     switch (state) {
@@ -64,8 +61,6 @@ function toggleBrowserWindow (state){
 
 
 if ("webkitSpeechRecognition" in window) {
-
-	supported = true
 
     document.write('<script src="./src/js/validateKey.js"></script>')
     document.write('<script src="./src/js/voice.js"></script>')

@@ -1,10 +1,8 @@
 
 const synth = window.speechSynthesis;
 
-
 var botListening = false;
 var botSpeaking = false;
-
 
 
 navigator.mediaDevices.getUserMedia({ audio: true });
@@ -26,6 +24,11 @@ recognition.addEventListener("speechend", (e) => {
 	endListen();
 });
 
+recognition.addEventListener("end", (e) => {
+	if (!botSpeaking)
+		endListen();
+});
+
 
 async function endListen() {
 
@@ -34,10 +37,11 @@ async function endListen() {
 	micButtonToggle(false)
 
 	botListening = false;
+	botSpeaking = true;
 
 	if (message) {
-		loading.classList.remove("hidden");
 
+		loading.classList.remove("hidden");
 
 		fetch("https://api.openai.com/v1/completions", {
 			method: "POST",
@@ -72,9 +76,8 @@ async function endListen() {
 			const frase = new SpeechSynthesisUtterance(choice);
 			synth.speak(frase);
 
-			botSpeaking = true;
-
 			button_listen_stop.classList.remove("hidden");
+			
 			loading.classList.add("hidden");
 
 			chat_answer.classList.remove("hidden");
