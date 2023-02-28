@@ -1,4 +1,6 @@
 
+const tutorial = document.getElementById("tutorial")
+
 const browser_window = document.getElementById("browser-not-supported")
 
 const button_listen = document.getElementById("mic_button")

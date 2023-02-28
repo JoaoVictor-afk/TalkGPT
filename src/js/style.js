@@ -6,6 +6,8 @@ button_listen.addEventListener("click", e => {
 
     if (!botSpeaking && !botListening) {
 
+        tutorial.classList.add("hidden")
+
         if (synth.speaking) {
             synth.cancel()
         }
