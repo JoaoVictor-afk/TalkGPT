@@ -5,6 +5,8 @@ button_listen.addEventListener("click", e => {
 
     if (!botSpeaking && !botListening) {
 
+        tutorial.classList.add("hidden")
+
         if (synth.speaking) {
             synth.cancel()
         }
@@ -23,7 +25,7 @@ button_listen.addEventListener("click", e => {
     } else {
 
         botListening = false
-
+        
         micButtonToggle(false)
         
         recognition.stop()
