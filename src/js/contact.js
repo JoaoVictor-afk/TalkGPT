@@ -1,18 +1,24 @@
 const cta = document.getElementById("cta");
+
 const sucessnotification = document.getElementById("sucessnotification");
 const failnotification = document.getElementById("failnotification");
 
 cta.addEventListener("click",(event) =>{
 	const email=document.getElementById("email").value;
 	const name=document.getElementById("name").value;
-	
+	const body = {"email":email, "name":name};
+
 	event.preventDefault();
-	
+	const urlencoded = new URLSearchParams();
+	urlencoded.append("name", name);
+	urlencoded.append("email", email);
+
 	let fetchdata={
 	  method : 'POST',
-	  body : JSON.stringify({email:this.email,name:this.name}),
-	  headers : {"Content-Type":"application/json"}
+	  body :urlencoded,
+	  headers : {"Content-Type":"application/x-www-form-urlencoded"}
 	}
+
 	fetch("src/php/contact.php",fetchdata).then(res =>{
 	  if(res.ok){   
 		sucessnotification.classList.remove("hidden");
@@ -23,6 +29,7 @@ cta.addEventListener("click",(event) =>{
 	})
   }
   );
+
 const closefail = document.getElementById("closefail");
 
 closefail.addEventListener("click", (event) => {
