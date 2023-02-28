@@ -61,7 +61,7 @@ function check_key(key) {
 			loading.classList.add("hidden");
 
 			if (!data["error"]) {
-				validation_button.classList.add("bg-green-400");
+				//validation_button.classList.add("bg-green-400");
 
 				micButtonEnable(true);
 
@@ -71,7 +71,7 @@ function check_key(key) {
 					localStorage.setItem("talkGPTapiKey", key);
 				}
 			} else {
-				validation_button.classList.remove("bg-green-400");
+				//validation_button.classList.remove("bg-green-400");
 
 				micButtonEnable(false);
 			}
