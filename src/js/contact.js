@@ -1,3 +1,4 @@
+// contact to php and send to mailchimp
 const cta = document.getElementById("cta");
 
 const sucessnotification = document.getElementById("sucessnotification");

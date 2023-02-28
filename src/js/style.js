@@ -1,7 +1,6 @@
 
 
 
-
 button_listen.addEventListener("click", e => {
 
     if (!botSpeaking && !botListening) {
