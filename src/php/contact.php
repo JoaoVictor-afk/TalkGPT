@@ -5,6 +5,19 @@ if (isset($_POST["name"]) && isset($_POST["email"])) {
     $name = $_POST["name"];
     $email = $_POST["email"];
 }
+if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo "Email address '$email' is considered valid.\n";
+    $email = $_POST["email"];
+    echo json_encode(array('success' => true));
+
+}
+if ((string)filter_input(INPUT_POST, 'name')) {
+    echo "Name '$name' is considered valid.\n";
+    $name = $_POST["name"];
+    echo json_encode(array('success' => true));
+
+
+}
 
 $body = array(
     "members" => [
