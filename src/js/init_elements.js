@@ -79,17 +79,24 @@ function toggleSafariWindow (state){
     }
 }
 
-if ("webkitSpeechRecognition" in window) {
 
+if ("webkitSpeechRecognition" in window) {
+    
+    console.log(navigator.userAgent.indexOf("safari"))
+    
+    var result = bowser.getParser(window.navigator.userAgent);
+    if (result["parsedResult"]["browser"]["name"] == "Safari") {
+        
+        toggleSafariWindow(true)
+
+    } 
+    
     document.write('<script src="./src/js/validateKey.js"></script>') 
     document.write('<script src="./src/js/voice.js"></script>')
 
+    
   
-} else if(userAgent.match(/safari/i)){
-
-    toggleSafariWindow(true)
-
-}else {
+} else {
 
 	console.log("Speech Recognition Not Available")
 	micButtonEnable(false)
