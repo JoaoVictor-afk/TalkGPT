@@ -105,8 +105,7 @@ function toggleSafariWindow (state){
 
 if ("webkitSpeechRecognition" in window) {
     
-    console.log(navigator.userAgent.indexOf("safari"))
-    
+
     var result = bowser.getParser(window.navigator.userAgent);
     if (result["parsedResult"]["browser"]["name"] == "Safari") {
         
@@ -123,7 +122,6 @@ if ("webkitSpeechRecognition" in window) {
 
 	console.log("Speech Recognition Not Available")
 	micButtonEnable(false)
-
 	toggleBrowserWindow(true)
-
+    
 }
