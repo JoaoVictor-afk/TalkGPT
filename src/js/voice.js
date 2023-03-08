@@ -4,7 +4,6 @@ const synth = window.speechSynthesis;
 var botListening = false;
 var botSpeaking = false;
 
-
 navigator.mediaDevices.getUserMedia({ audio: true });
 
 var recognition = new webkitSpeechRecognition();
@@ -76,29 +75,38 @@ recognition.addEventListener("end", (e) => {
 		endListen();
 });
 
+let messages_saved = JSON.parse(localStorage.getItem("messages")) || []
+
+var messages = messages_saved.slice()
+
+for (var i = 0; i < system_messages.length; i++) {
+	messages.unshift(system_messages[i])
+}
 
 async function endListen() {
 
-	const message = mic_capture.innerHTML;
-
+	const message_spoken = mic_capture.innerHTML;
+	
 	micButtonToggle(false)
 
 	botListening = false;
 	
-	if (message) {
+	if (message_spoken) {
+
+		const message = {"role" : "user", "content" : message_spoken}
+
 		botSpeaking = true;
+
+		micButtonEnable(false)
 		
 		loading.classList.remove("hidden");
 
-		let messages = JSON.parse(localStorage.getItem("messages"))
-		messages.push(
-			{"role" : "user", "content" : message}
-		)
+		messages.push(message)
 
 		const dados = {
 			"model" : "gpt-3.5-turbo",
 			"messages" : messages,
-			"max_tokens" : 500,
+			"max_tokens" : 200,
 		}
 
 		fetch("https://api.openai.com/v1/chat/completions", {
@@ -114,15 +122,12 @@ async function endListen() {
 			
 			let choice = data.choices[0].message.content;
 
-			console.log(choice)
+			let answer = {"role" : "assistant", "content" : choice}
 
-			messages.push(
-				{"role" : "assistant", "content" : choice}
-			)
+			messages_saved.push(message)
+			messages_saved.push(answer)
 
-			messages = JSON.stringify(messages)
-
-			localStorage.setItem("messages", messages)
+			localStorage.setItem("messages", JSON.stringify(messages_saved))
 
 			const result = choice.match(/^[.,:!?]/);
 

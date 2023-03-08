@@ -80,6 +80,7 @@ function typeWrite() {
 
         txt_index = 0
         botSpeaking = false
+        micButtonEnable(true)
         button_listen_stop.classList.add("hidden")
     
     }
