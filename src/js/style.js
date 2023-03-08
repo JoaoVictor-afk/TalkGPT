@@ -1,53 +1,7 @@
 
 
 
-button_listen.addEventListener("click", e => {
 
-    if (!botSpeaking && !botListening) {
-
-        tutorial.classList.add("hidden")
-
-        if (synth.speaking) {
-            synth.cancel()
-        }
-
-        botListening = true
-
-        chat_answer.innerHTML = ""
-        mic_capture.innerHTML = ""
-        
-        chat_answer.classList.add("hidden")
-
-        micButtonToggle(true)
-        
-        recognition.start();
-
-    } else {
-
-        botListening = false
-        
-        micButtonToggle(false)
-        
-        recognition.stop()
-
-    }
-
-})
-
-button_listen_stop.addEventListener("click", e => {
-
-    if (botSpeaking) {
-
-        if (synth.speaking) {
-            synth.cancel()
-        }
-
-        button_listen_stop.classList.add("hidden")
-        botSpeaking = false
-
-    }
-
-})
 
 function micButtonToggle (state) {
 

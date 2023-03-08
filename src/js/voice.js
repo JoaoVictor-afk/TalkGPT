@@ -10,6 +10,53 @@ navigator.mediaDevices.getUserMedia({ audio: true });
 var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 
+button_listen.addEventListener("click", e => {
+
+    if (!botSpeaking && !botListening) {
+
+        tutorial.classList.add("hidden")
+
+        if (synth.speaking) {
+            synth.cancel()
+        }
+
+        botListening = true
+
+        chat_answer.innerHTML = ""
+        mic_capture.innerHTML = ""
+        
+        chat_answer.classList.add("hidden")
+
+        micButtonToggle(true)
+        
+        recognition.start();
+
+    } else {
+
+        botListening = false
+        
+        micButtonToggle(false)
+        
+        recognition.stop()
+
+    }
+
+})
+
+button_listen_stop.addEventListener("click", e => {
+
+    if (botSpeaking) {
+
+        if (synth.speaking) {
+            synth.cancel()
+        }
+
+        button_listen_stop.classList.add("hidden")
+        botSpeaking = false
+
+    }
+
+})
 
 recognition.addEventListener("result", (e) => {
 	const transcript = Array.from(e.results)
@@ -43,26 +90,39 @@ async function endListen() {
 		
 		loading.classList.remove("hidden");
 
-		fetch("https://api.openai.com/v1/completions", {
+		let messages = JSON.parse(localStorage.getItem("messages"))
+		messages.push(
+			{"role" : "user", "content" : message}
+		)
+
+		const dados = {
+			"model" : "gpt-3.5-turbo",
+			"messages" : messages,
+			"max_tokens" : 500,
+		}
+
+		fetch("https://api.openai.com/v1/chat/completions", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${api_key}`,
 			},
-			body: JSON.stringify({
-				model: "text-davinci-003",
-				prompt: message,
-				max_tokens: 500,
-				temperature: 0.5,
-				presence_penalty: 0.2,
-				frequency_penalty: 0.2,
-				n: 1,
-			}),
+			body: JSON.stringify(dados),
 		})
 		.then((response) => response.json())
 		.then((data) => {
 			
-			let choice = data.choices[0].text;
+			let choice = data.choices[0].message.content;
+
+			console.log(choice)
+
+			messages.push(
+				{"role" : "assistant", "content" : choice}
+			)
+
+			messages = JSON.stringify(messages)
+
+			localStorage.setItem("messages", messages)
 
 			const result = choice.match(/^[.,:!?]/);
 
