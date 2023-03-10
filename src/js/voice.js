@@ -101,14 +101,19 @@ async function endListen() {
 			"max_tokens" : 500,
 		}
 
-		fetch("https://api.openai.com/v1/chat/completions", {
+
+		const urlencoded = new URLSearchParams();
+		urlencoded.append("dados", dados);
+		urlencoded.append("apikey", "${api_key}");
+
+
+		let fetchdata = {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${api_key}`,
-			},
-			body: JSON.stringify(dados),
-		})
+			body: urlencoded,
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		};
+
+		fetch("https://api.openai.com/v1/chat/completions", fetchdata)
 		.then((response) => response.json())
 		.then((data) => {
 			

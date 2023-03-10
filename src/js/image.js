@@ -5,31 +5,25 @@ navigator.mediaDevices.getUserMedia({ audio: true });
 var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 
-button_listen.addEventListener("click", e => {
+button_listen.addEventListener("click", (e) => {
+	if (!botListening) {
+		tutorial.classList.add("hidden");
 
-    if (!botListening) {
+		botListening = true;
 
-        tutorial.classList.add("hidden")
+		mic_capture.innerHTML = "";
 
-        botListening = true
+		micButtonToggle(true);
 
-        mic_capture.innerHTML = ""
+		recognition.start();
+	} else {
+		botListening = false;
 
-        micButtonToggle(true)
-        
-        recognition.start();
+		micButtonToggle(false);
 
-    } else {
-
-        botListening = false
-        
-        micButtonToggle(false)
-        
-        recognition.stop()
-
-    }
-
-})
+		recognition.stop();
+	}
+});
 
 recognition.addEventListener("result", (e) => {
 	const transcript = Array.from(e.results)
@@ -44,40 +38,36 @@ recognition.addEventListener("speechend", (e) => {
 	endListen();
 });
 
-
 async function endListen() {
-
 	const message = mic_capture.innerHTML;
 
-	micButtonToggle(false)
+	micButtonToggle(false);
 
 	botListening = false;
-	
-	if (message) {
 
+	if (message) {
 		loading.classList.remove("hidden");
 
-		fetch("https://api.openai.com/v1/images/generations", {
+
+		event.preventDefault();
+		const urlencoded = new URLSearchParams();
+		urlencoded.append("message", message);
+		urlencoded.append("size", "512x512");
+		let fetchdata = {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${api_key}`,
-			},
-			body: JSON.stringify({
-				prompt: message,
-                size : "512x512",
-			}),
-		})
-		.then((response) => response.json())
-		.then((data) => {
-			
-			let choice = data.data[0].url;
-            
-			loading.classList.add("hidden");
+			body: urlencoded,
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		};
 
-			chat_answer.classList.remove("hidden");
-            image.src = choice
+		fetch("src/php/image.php", fetchdata)
+			.then((response) => response.json())
+			.then((data) => {
+				let choice = data.data[0].url;
 
-		});
-	}	
+				loading.classList.add("hidden");
+
+				chat_answer.classList.remove("hidden");
+				image.src = choice;
+			});
+	}
 }
