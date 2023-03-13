@@ -3,8 +3,6 @@ const synth = window.speechSynthesis;
 var botListening = false;
 var botSpeaking = false;
 
-navigator.mediaDevices.getUserMedia({ audio: true });
-
 var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 

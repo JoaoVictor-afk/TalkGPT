@@ -3,8 +3,6 @@
 $dados = $_POST["dados"];
 $apikey = $_POST["apikey"];
 
-
-
 $body = array(
   $dados
 );
