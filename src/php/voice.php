@@ -1,8 +1,12 @@
 <?php
 
+$dados=$_POST["dados"];
+$apikey = $_POST["apikey"];
+
+
+
 $body = array(
-    "prompt"=> $message,
-    "size" => "512x512",
+   $dados
 );
 
 $curl = curl_init();
@@ -16,9 +20,9 @@ curl_setopt_array($curl, array(
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>json_encode($body),
+  CURLOPT_POSTFIELDS =>$dados,
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer'.$apikey,
+    'Authorization: Bearer '.$apikey,
     'Content-Type: application/json'
   ),
 ));
@@ -26,4 +30,4 @@ curl_setopt_array($curl, array(
 $response = curl_exec($curl);
 
 curl_close($curl);
-echo $response;
+echo json_encode($response);

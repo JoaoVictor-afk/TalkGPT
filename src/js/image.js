@@ -48,10 +48,10 @@ async function endListen() {
 	if (message) {
 		loading.classList.remove("hidden");
 
-
 		event.preventDefault();
 		const urlencoded = new URLSearchParams();
 		urlencoded.append("message", message);
+		urlencoded.append("apikey", `${api_key}`);
 		urlencoded.append("size", "512x512");
 		let fetchdata = {
 			method: "POST",
@@ -62,12 +62,19 @@ async function endListen() {
 		fetch("src/php/image.php", fetchdata)
 			.then((response) => response.json())
 			.then((data) => {
-				let choice = data.data[0].url;
-
+				
+				let choice =  JSON.parse(data);
+				console.log(choice)
 				loading.classList.add("hidden");
 
 				chat_answer.classList.remove("hidden");
-				image.src = choice;
+				image.src = choice.data[0].url;;
+			})
+			.catch((error) => {
+				console.log("error", error)
+				loading.classList.add("hidden");
 			});
 	}
 }
+
+

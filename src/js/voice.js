@@ -1,4 +1,3 @@
-
 const synth = window.speechSynthesis;
 
 var botListening = false;
@@ -9,53 +8,43 @@ navigator.mediaDevices.getUserMedia({ audio: true });
 var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 
-button_listen.addEventListener("click", e => {
+button_listen.addEventListener("click", (e) => {
+	if (!botSpeaking && !botListening) {
+		tutorial.classList.add("hidden");
 
-    if (!botSpeaking && !botListening) {
+		if (synth.speaking) {
+			synth.cancel();
+		}
 
-        tutorial.classList.add("hidden")
+		botListening = true;
 
-        if (synth.speaking) {
-            synth.cancel()
-        }
+		chat_answer.innerHTML = "";
+		mic_capture.innerHTML = "";
 
-        botListening = true
+		chat_answer.classList.add("hidden");
 
-        chat_answer.innerHTML = ""
-        mic_capture.innerHTML = ""
-        
-        chat_answer.classList.add("hidden")
+		micButtonToggle(true);
 
-        micButtonToggle(true)
-        
-        recognition.start();
+		recognition.start();
+	} else {
+		botListening = false;
 
-    } else {
+		micButtonToggle(false);
 
-        botListening = false
-        
-        micButtonToggle(false)
-        
-        recognition.stop()
+		recognition.stop();
+	}
+});
 
-    }
+button_listen_stop.addEventListener("click", (e) => {
+	if (botSpeaking) {
+		if (synth.speaking) {
+			synth.cancel();
+		}
 
-})
-
-button_listen_stop.addEventListener("click", e => {
-
-    if (botSpeaking) {
-
-        if (synth.speaking) {
-            synth.cancel()
-        }
-
-        button_listen_stop.classList.add("hidden")
-        botSpeaking = false
-
-    }
-
-})
+		button_listen_stop.classList.add("hidden");
+		botSpeaking = false;
+	}
+});
 
 recognition.addEventListener("result", (e) => {
 	const transcript = Array.from(e.results)
@@ -71,49 +60,44 @@ recognition.addEventListener("speechend", (e) => {
 });
 
 recognition.addEventListener("end", (e) => {
-	if (!botSpeaking)
-		endListen();
+	if (!botSpeaking) endListen();
 });
 
-let messages_saved = JSON.parse(localStorage.getItem("messages")) || []
+let messages_saved = JSON.parse(localStorage.getItem("messages")) || [];
 
-var messages = messages_saved.slice()
+var messages = messages_saved.slice();
 
 for (var i = 0; i < system_messages.length; i++) {
-	messages.unshift(system_messages[i])
+	messages.unshift(system_messages[i]);
 }
 
 async function endListen() {
-
 	const message_spoken = mic_capture.innerHTML;
-	
-	micButtonToggle(false)
+
+	micButtonToggle(false);
 
 	botListening = false;
-	
-	if (message_spoken) {
 
-		const message = {"role" : "user", "content" : message_spoken}
+	if (message_spoken) {
+		const message = { role: "user", content: message_spoken };
 
 		botSpeaking = true;
 
-		micButtonEnable(false)
-		
+		micButtonEnable(false);
+
 		loading.classList.remove("hidden");
 
-		messages.push(message)
+		messages.push(message);
 
 		const dados = {
-			"model" : "gpt-3.5-turbo",
-			"messages" : messages,
-			"max_tokens" : 200,
-		}
-
+			model: "gpt-3.5-turbo",
+			messages: messages,
+			max_tokens: 200,
+		};
 
 		const urlencoded = new URLSearchParams();
-		urlencoded.append("dados", dados);
-		urlencoded.append("apikey", "${api_key}");
-
+		urlencoded.append("dados", JSON.stringify(dados));
+		urlencoded.append("apikey", `${api_key}`);
 
 		let fetchdata = {
 			method: "POST",
@@ -121,43 +105,40 @@ async function endListen() {
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },
 		};
 
-		fetch("https://api.openai.com/v1/chat/completions", fetchdata)
-		.then((response) => response.json())
-		.then((data) => {
-			
-			let choice = data.choices[0].message.content;
+		fetch("src/php/voice.php", fetchdata)
+			.then((response) => response.json())
+			.then((data) => {
+				let choice = JSON.parse(data)
+				console.log(choice)
+				choice = choice.choices[0].message.content;
 
-			let answer = {"role" : "assistant", "content" : choice}
+				let answer = { role: "assistant", content: choice };
 
-			messages_saved.push(message)
-			messages_saved.push(answer)
+				messages_saved.push(message);
+				messages_saved.push(answer);
 
-			localStorage.setItem("messages", JSON.stringify(messages_saved))
+				localStorage.setItem("messages", JSON.stringify(messages_saved));
 
-			const result = choice.match(/^[.,:!?]/);
+				const result = choice.match(/^[.,:!?]/);
 
-			if (result != null) {
-				mic_capture.innerHTML += result;
-			}
+				if (result != null) {
+					mic_capture.innerHTML += result;
+				}
 
-			choice = choice.replace(/^[.,:!?]+/, "");
-			choice = choice.replace(/^(\n)+/, "");
+				choice = choice.replace(/^[.,:!?]+/, "");
+				choice = choice.replace(/^(\n)+/, "");
 
-			const frase = new SpeechSynthesisUtterance(choice);
-			synth.speak(frase);
+				const frase = new SpeechSynthesisUtterance(choice);
+				synth.speak(frase);
 
-			button_listen_stop.classList.remove("hidden");
-			
-			loading.classList.add("hidden");
+				button_listen_stop.classList.remove("hidden");
 
-			chat_answer.classList.remove("hidden");
-			chat_answer.innerHTML = choice;
+				loading.classList.add("hidden");
 
-			typeWrite();
-		});
-	}	
+				chat_answer.classList.remove("hidden");
+				chat_answer.innerHTML = choice;
+
+				typeWrite();
+			});
+	}
 }
-
-
-
-
