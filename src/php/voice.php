@@ -1,12 +1,12 @@
 <?php
 
-$dados=$_POST["dados"];
+$dados = $_POST["dados"];
 $apikey = $_POST["apikey"];
 
 
 
 $body = array(
-   $dados
+  $dados
 );
 
 $curl = curl_init();
@@ -20,9 +20,9 @@ curl_setopt_array($curl, array(
   CURLOPT_FOLLOWLOCATION => true,
   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
   CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>$dados,
+  CURLOPT_POSTFIELDS => $dados,
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer '.$apikey,
+    'Authorization: Bearer ' . $apikey,
     'Content-Type: application/json'
   ),
 ));

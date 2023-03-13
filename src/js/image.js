@@ -62,19 +62,16 @@ async function endListen() {
 		fetch("src/php/image.php", fetchdata)
 			.then((response) => response.json())
 			.then((data) => {
-				
-				let choice =  JSON.parse(data);
-				console.log(choice)
+				let choice = JSON.parse(data);
+				console.log(choice);
 				loading.classList.add("hidden");
 
 				chat_answer.classList.remove("hidden");
-				image.src = choice.data[0].url;;
+				image.src = choice.data[0].url;
 			})
 			.catch((error) => {
-				console.log("error", error)
+				console.log("error", error);
 				loading.classList.add("hidden");
 			});
 	}
 }
-
-

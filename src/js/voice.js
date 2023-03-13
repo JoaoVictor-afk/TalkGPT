@@ -108,8 +108,8 @@ async function endListen() {
 		fetch("src/php/voice.php", fetchdata)
 			.then((response) => response.json())
 			.then((data) => {
-				let choice = JSON.parse(data)
-				console.log(choice)
+				let choice = JSON.parse(data);
+				console.log(choice);
 				choice = choice.choices[0].message.content;
 
 				let answer = { role: "assistant", content: choice };
