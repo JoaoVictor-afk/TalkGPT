@@ -1,7 +1,4 @@
-
-
-micButtonEnable(false)
-
+micButtonEnable(false);
 
 if (localStorage.hasOwnProperty("checkbox")) {
 	switch (localStorage.getItem("checkbox")) {
@@ -16,16 +13,11 @@ if (localStorage.hasOwnProperty("checkbox")) {
 	}
 }
 
-
 var api_key = localStorage.getItem("talkGPTapiKey");
-
 
 if (api_key) {
 	check_key(api_key);
-} else {
-	check_key("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");
-}
-
+} 
 
 function validateKey() {
 	const key = key_input.value;
@@ -37,29 +29,34 @@ function validateKey() {
 	check_key(key);
 }
 
-
 function check_key(key) {
 	loading.classList.remove("hidden");
 	micButtonEnable(false);
 
-	fetch("https://api.openai.com/v1/completions", {
+	const dados = {
+		model: "text-ada-001",
+		prompt: "test",
+		max_tokens: 1,
+		n: 1,
+	};
+
+	const urlencoded = new URLSearchParams();
+	urlencoded.append("dados", JSON.stringify(dados));
+
+
+	let fetchdata = {
 		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${key}`,
-		},
-		body: JSON.stringify({
-			model: "text-ada-001",
-			prompt: "test",
-			max_tokens: 1,
-			n: 1,
-		}),
-	})
+		body: urlencoded,
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	};
+
+	fetch("src/php/validate.php",fetchdata)
 		.then((response) => response.json())
 		.then((data) => {
 			loading.classList.add("hidden");
+			const parse=JSON.parse(data);
 
-			if (!data["error"]) {
+			if (!parse["error"]) {
 				//validation_button.classList.add("bg-green-400");
 
 				micButtonEnable(true);
