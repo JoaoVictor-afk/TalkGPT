@@ -22,7 +22,7 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS => $dados,
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer ' . $apikey,
+    'Authorization: Bearer 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',
     'Content-Type: application/json'
   ),
 ));
