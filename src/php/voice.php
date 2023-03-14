@@ -24,7 +24,7 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS => $dados,
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer '.$key,
+    'Authorization: Bearer ' . $key,
     'Content-Type: application/json'
   ),
 ));

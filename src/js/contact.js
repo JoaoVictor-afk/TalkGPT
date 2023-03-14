@@ -21,15 +21,15 @@ cta.addEventListener("click", (event) => {
 	};
 
 	fetch("src/php/contact.php", fetchdata)
-		.then((response) => {
-			if (response.success != false) {
-				sucessnotification.classList.remove("hidden");
-				console.log("funcinou");
-			} else {
-				failnotification.classList.remove("hidden");
-			}
-		})
-		.then((result) => console.log(result))
+		.then((response) => response.json())
+		.then((data) => {
+			const parse=JSON.parse(data);
+			if (parse["error"]) {
+			sucessnotification.classList.remove("hidden");
+			console.log("funcinou");
+		} else {
+			failnotification.classList.remove("hidden");
+		}})
 		.catch((error) => console.log("error", error));
 });
 
