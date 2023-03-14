@@ -42,6 +42,8 @@ function check_key(key) {
 
 	const urlencoded = new URLSearchParams();
 	urlencoded.append("dados", JSON.stringify(dados));
+	urlencoded.append("apikey", api_key);
+
 
 
 	let fetchdata = {
@@ -54,7 +56,9 @@ function check_key(key) {
 		.then((response) => response.json())
 		.then((data) => {
 			loading.classList.add("hidden");
-			const parse=JSON.parse(data);
+			const parse = JSON.parse(data);
+
+			console.log(data)
 
 			if (!parse["error"]) {
 				//validation_button.classList.add("bg-green-400");

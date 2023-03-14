@@ -2,6 +2,12 @@
 
 $dados = $_POST["dados"];
 
+$key = "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";
+
+if (isset($_POST["apikey"]))
+  $key = $_POST["apikey"];
+
+
 $body = array(
   $dados
 );
@@ -9,7 +15,7 @@ $body = array(
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://api.openai.com/v1/chat/completions',
+  CURLOPT_URL => 'https://api.openai.com/v1/completions',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
@@ -19,7 +25,7 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS => $dados,
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer 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',
+    'Authorization: Bearer '.$key,
     'Content-Type: application/json'
   ),
 ));
