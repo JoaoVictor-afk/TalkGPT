@@ -26,8 +26,9 @@ const system_messages = [{
 localStorage.removeItem("messages")
 
 
-
+if (able_to_run) {
 
     document.write('<script src="./src/js/validateKey.js"></script>') 
     document.write('<script src="./src/js/voice.js"></script>')
     
+}
