@@ -23,13 +23,14 @@ cta.addEventListener("click", (event) => {
 	fetch("src/php/contact.php", fetchdata)
 		.then((response) => response.json())
 		.then((data) => {
-			const parse=JSON.parse(data);
+			const parse = JSON.parse(data);
 			if (parse["error"]) {
-			sucessnotification.classList.remove("hidden");
-			console.log("funcinou");
-		} else {
-			failnotification.classList.remove("hidden");
-		}})
+				sucessnotification.classList.remove("hidden");
+				console.log("funcinou");
+			} else {
+				failnotification.classList.remove("hidden");
+			}
+		})
 		.catch((error) => console.log("error", error));
 });
 
