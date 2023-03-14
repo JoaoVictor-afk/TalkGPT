@@ -1,12 +1,15 @@
-var botListening = false;
 
-navigator.mediaDevices.getUserMedia({ audio: true });
+
+
+var botListening = false;
 
 var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 
 button_listen.addEventListener("click", (e) => {
+
 	if (!botListening) {
+
 		tutorial.classList.add("hidden");
 
 		botListening = true;
@@ -17,12 +20,14 @@ button_listen.addEventListener("click", (e) => {
 
 		recognition.start();
 	} else {
+
 		botListening = false;
 
 		micButtonToggle(false);
 
 		recognition.stop();
 	}
+
 });
 
 recognition.addEventListener("result", (e) => {
@@ -46,13 +51,17 @@ async function endListen() {
 	botListening = false;
 
 	if (message) {
-		loading.classList.remove("hidden");
+		
+		showLoading(true)
 
 		event.preventDefault();
+
 		const urlencoded = new URLSearchParams();
+
 		urlencoded.append("message", message);
 		urlencoded.append("apikey", `${api_key}`);
 		urlencoded.append("size", "512x512");
+
 		let fetchdata = {
 			method: "POST",
 			body: urlencoded,
@@ -62,16 +71,25 @@ async function endListen() {
 		fetch("src/php/image.php", fetchdata)
 			.then((response) => response.json())
 			.then((data) => {
+
 				let choice = JSON.parse(data);
+
 				console.log(choice);
-				loading.classList.add("hidden");
+				
+				showLoading(false)
 
 				chat_answer.classList.remove("hidden");
+
 				image.src = choice.data[0].url;
+				
 			})
 			.catch((error) => {
+				
 				console.log("error", error);
-				loading.classList.add("hidden");
+
+				showLoading(false)
+
 			});
+
 	}
 }

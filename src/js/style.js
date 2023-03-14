@@ -1,27 +1,35 @@
 
 
 
+function showLoading (show) {
 
+    if (show) {
+
+        loading.classList.remove("hidden")
+    
+    } else {
+        
+        loading.classList.add("hidden")
+
+    }
+
+}
 
 function micButtonToggle (state) {
 
-    switch (state) {
+    if (state){
 
-        case true:
+        button_listen.classList.add("text-red-500")
+        button_listen.classList.add("animate-pulse")
+        button_listen.classList.add("scale-110")
+        button_listen.setAttribute("name", "mic-off")
 
-            button_listen.classList.add("text-red-500")
-            button_listen.classList.add("animate-pulse")
-            button_listen.classList.add("scale-110")
-            button_listen.setAttribute("name", "mic-off")
+    } else {
 
-            break;
-        
-        default:
-
-            button_listen.classList.remove("text-red-500");
-            button_listen.classList.remove("animate-pulse");
-            button_listen.classList.remove("scale-110")
-            button_listen.setAttribute("name", "mic");
+        button_listen.classList.remove("text-red-500");
+        button_listen.classList.remove("animate-pulse");
+        button_listen.classList.remove("scale-110")
+        button_listen.setAttribute("name", "mic");
             
     }
 }
