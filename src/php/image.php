@@ -1,7 +1,11 @@
 <?php
 
 $message = $_POST["message"];
-$apikey = $_POST["apikey"];
+
+$key = "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";
+
+if (isset($_POST["apikey"]) and $_POST["apikey"] != "null")
+  $key = $_POST["apikey"];
 
 $body = array(
   "prompt" => $message,
@@ -21,7 +25,7 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS => json_encode($body),
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer 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',
+    'Authorization: Bearer '.$key,
     'Content-Type: application/json'
   ),
 ));

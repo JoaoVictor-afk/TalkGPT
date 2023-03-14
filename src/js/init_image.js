@@ -1,4 +1,6 @@
 
+
+
 const chat_answer = document.getElementById("chat_answer")
 const image = document.getElementById("answer")
 

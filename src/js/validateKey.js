@@ -1,23 +1,22 @@
 micButtonEnable(false);
 
-if (localStorage.hasOwnProperty("checkbox")) {
-	switch (localStorage.getItem("checkbox")) {
-		case "true":
-			checkbox.checked = true;
-			break;
-		case "false":
-			checkbox.checked = false;
-			break;
-		default:
-			checkbox.checked = true;
-	}
-}
+// if (localStorage.hasOwnProperty("checkbox")) {
+// 	switch (localStorage.getItem("checkbox")) {
+// 		case "true":
+// 			checkbox.checked = true;
+// 			break;
+// 		case "false":
+// 			checkbox.checked = false;
+// 			break;
+// 		default:
+// 			checkbox.checked = true;
+// 	}
+// }
 
 var api_key = localStorage.getItem("talkGPTapiKey");
 
-if (api_key) {
-	check_key(api_key);
-} 
+check_key(api_key);
+
 
 function validateKey() {
 	const key = key_input.value;
@@ -44,8 +43,6 @@ function check_key(key) {
 	urlencoded.append("dados", JSON.stringify(dados));
 	urlencoded.append("apikey", api_key);
 
-
-
 	let fetchdata = {
 		method: "POST",
 		body: urlencoded,
@@ -58,8 +55,6 @@ function check_key(key) {
 			loading.classList.add("hidden");
 			const parse = JSON.parse(data);
 
-			console.log(data)
-
 			if (!parse["error"]) {
 				//validation_button.classList.add("bg-green-400");
 
@@ -67,9 +62,9 @@ function check_key(key) {
 
 				api_key = key;
 
-				if (checkbox.checked) {
-					localStorage.setItem("talkGPTapiKey", key);
-				}
+				//if (checkbox.checked) {
+					//localStorage.setItem("talkGPTapiKey", key);
+				//}
 			} else {
 				//validation_button.classList.remove("bg-green-400");
 

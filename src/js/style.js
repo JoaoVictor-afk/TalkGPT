@@ -95,3 +95,4 @@ function typeWrite() {
     
 }
 
+endListen()
