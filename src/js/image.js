@@ -48,7 +48,7 @@ recognition.addEventListener("speechend", (e) => {
 });
 
 async function endListen() {
-	const message = mic_capture.innerHTML || "dia bonito";
+	const message = mic_capture.innerHTML;
 
 	micButtonToggle(false);
 
