@@ -84,6 +84,8 @@ if ("webkitSpeechRecognition" in window) {
 
 	console.log("Speech Recognition Not Available")
 
+    able_to_run = false
+
 	micButtonEnable(false)
 	toggleBrowserWindow(true)
 
