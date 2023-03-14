@@ -4,9 +4,8 @@ $dados = $_POST["dados"];
 
 $key = "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";
 
-if (isset($_POST["apikey"]))
+if (isset($_POST["apikey"]) and $_POST["apikey"] != "null")
   $key = $_POST["apikey"];
-
 
 $body = array(
   $dados

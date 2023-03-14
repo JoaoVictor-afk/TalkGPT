@@ -18,7 +18,11 @@ button_listen.addEventListener("click", (e) => {
 
 		micButtonToggle(true);
 
+		chat_answer.classList.add("hidden");
+		button_listen.removeAttribute("style")
+
 		recognition.start();
+
 	} else {
 
 		botListening = false;
@@ -44,7 +48,7 @@ recognition.addEventListener("speechend", (e) => {
 });
 
 async function endListen() {
-	const message = mic_capture.innerHTML;
+	const message = mic_capture.innerHTML || "dia bonito";
 
 	micButtonToggle(false);
 
@@ -54,7 +58,7 @@ async function endListen() {
 		
 		showLoading(true)
 
-		event.preventDefault();
+		//event.preventDefault();
 
 		const urlencoded = new URLSearchParams();
 
@@ -62,21 +66,23 @@ async function endListen() {
 		urlencoded.append("apikey", `${api_key}`);
 		urlencoded.append("size", "512x512");
 
+
 		let fetchdata = {
 			method: "POST",
 			body: urlencoded,
 			headers: { "Content-Type": "application/x-www-form-urlencoded" },
 		};
 
+
 		fetch("src/php/image.php", fetchdata)
 			.then((response) => response.json())
 			.then((data) => {
 
 				let choice = JSON.parse(data);
-
-				console.log(choice);
 				
 				showLoading(false)
+
+				button_listen.setAttribute("style", "font-size: 100px;")
 
 				chat_answer.classList.remove("hidden");
 
@@ -93,3 +99,4 @@ async function endListen() {
 
 	}
 }
+

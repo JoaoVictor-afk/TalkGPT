@@ -23,13 +23,7 @@ const system_messages = [{
     },
 ]
 
-
-// if (!localStorage.hasOwnProperty("messages")) {
-
-//     localStorage.setItem("messages", JSON.stringify(system_messages))
-
-// }
-
+localStorage.removeItem("messages")
 
 
 if (able_to_run) {

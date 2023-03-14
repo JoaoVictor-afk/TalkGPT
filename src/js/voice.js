@@ -7,6 +7,7 @@ var recognition = new webkitSpeechRecognition();
 recognition.interimResults = true;
 
 button_listen.addEventListener("click", (e) => {
+
 	if (!botSpeaking && !botListening) {
 		tutorial.classList.add("hidden");
 
@@ -24,13 +25,17 @@ button_listen.addEventListener("click", (e) => {
 		micButtonToggle(true);
 
 		recognition.start();
+
 	} else {
+
 		botListening = false;
 
 		micButtonToggle(false);
 
 		recognition.stop();
+
 	}
+
 });
 
 button_listen_stop.addEventListener("click", (e) => {
@@ -61,7 +66,7 @@ recognition.addEventListener("end", (e) => {
 	if (!botSpeaking) endListen();
 });
 
-let messages_saved = JSON.parse(localStorage.getItem("messages")) || [];
+let messages_saved = JSON.parse(localStorage.getItem("saved_messages")) || [];
 
 var messages = messages_saved.slice();
 
@@ -115,7 +120,7 @@ async function endListen() {
 				messages_saved.push(message);
 				messages_saved.push(answer);
 
-				localStorage.setItem("messages", JSON.stringify(messages_saved));
+				localStorage.setItem("saved_messages", JSON.stringify(messages_saved));
 
 				const result = choice.match(/^[.,:!?]/);
 

@@ -1,7 +1,11 @@
 <?php
 
 $dados = $_POST["dados"];
-$apikey = $_POST["apikey"];
+
+$key = "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";
+
+if (isset($_POST["apikey"]) and $_POST["apikey"] != "null")
+  $key = $_POST["apikey"];
 
 $body = array(
   $dados
@@ -20,7 +24,7 @@ curl_setopt_array($curl, array(
   CURLOPT_CUSTOMREQUEST => 'POST',
   CURLOPT_POSTFIELDS => $dados,
   CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer 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',
+    'Authorization: Bearer '.$key,
     'Content-Type: application/json'
   ),
 ));
