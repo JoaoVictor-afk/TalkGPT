@@ -115,7 +115,6 @@ download_button.addEventListener("click", (e) => {
 	fetch("src/php/downloadImage.php", fetchdata)
 	.then(response => response.json())
 	.then(data => {
-		console.log(data)
 
 		var link = document.createElement('a');
 		link.href = "./src/php/" + data.name;
