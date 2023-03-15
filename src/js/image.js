@@ -44,7 +44,9 @@ recognition.addEventListener("result", (e) => {
 });
 
 recognition.addEventListener("speechend", (e) => {
-	endListen();
+	
+	setTimeout(endListen, 1000)
+
 });
 
 async function endListen() {
