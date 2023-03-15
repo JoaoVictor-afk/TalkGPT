@@ -100,3 +100,43 @@ async function endListen() {
 	}
 }
 
+download_button.addEventListener("click", (e) => {
+
+	const urlencoded = new URLSearchParams();
+
+	urlencoded.append("imageUrl", image.src);
+
+	let fetchdata = {
+		method: "POST",
+		body: urlencoded,
+		headers: { "Content-Type": "application/x-www-form-urlencoded" },
+	}
+
+	fetch("src/php/downloadImage.php", fetchdata)
+	.then(response => response.json())
+	.then(data => {
+		console.log(data)
+
+		var link = document.createElement('a');
+		link.href = "./src/php/" + data.name;
+		link.download = mic_capture.innerHTML + ".png";
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+
+		const urlencoded2 = new URLSearchParams();
+
+		urlencoded2.append("name", data.name);
+
+		let fetchdataDelete = {
+			method: "POST",
+			body: urlencoded2,
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+		}
+
+		fetch("src/php/deleteImage.php", fetchdataDelete)
+
+	})
+
+})
+
